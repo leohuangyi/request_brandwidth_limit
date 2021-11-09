@@ -9,10 +9,11 @@ npm install
 node index.js
 
 // 如浏览器输入网址：
-//     http://127.0.0.1:8091/test/11.jpg?host=cdnv.vincicar.net
+//     http://192.168.31.189:8091/temp/11.jpg?rHost=https%3A%2F%2Fcdnv.vincicar.net&speed=1024
 // 将会被代理到:
 //    http://cdnv.vincicar.net/test/11.jpg
 // 此刻这张jpg将以1kb/s的龟速呈现在你的浏览器
+// speed代表速度，1024即1kb/s
 
 // ThrottleGroup({ rate: 1 * 1024 }) 代表限速1KB/S
 
@@ -20,7 +21,7 @@ node index.js
 
 getBrandLimitUrl("http://cdnv.vincicar.net/test/11.jpg")
 
-public static String getBrandLimitUrl(String url) {
+public static String getBrandLimitUrl(String url, int speed) {
     try {
         Uri uri = Uri.parse(url);
         String aimHost = uri.getHost();
@@ -37,6 +38,7 @@ public static String getBrandLimitUrl(String url) {
         } else {
             newUrl += "&" + "rHost=" + aim;
         }
+        newUrl += "&speed=" + speed;
         return newUrl;
     } catch (Exception e) {
         return "";

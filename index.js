@@ -8,7 +8,6 @@ const { ThrottleGroup } = require("stream-throttle");
  * Change to various rate to test
  */
 // var tg = new ThrottleGroup({rate: 1024*1024}); //1 MiB per sec
-var tg = new ThrottleGroup({ rate: 1 * 1024 }); //1 kb per sec
 
 var http = require('http');
 
@@ -32,7 +31,8 @@ function onRequest(client_req, client_res) {
             // }
         };
         // console.log(options)
-    
+        const speed = parseInt(query.speed, 10) || 1024
+        var tg = new ThrottleGroup({ rate:  speed}); //1 kb per sec
         var proxy = (isHttps ? https : http).request(options, function (res) {
             client_res.writeHead(res.statusCode, res.headers)
             res
